@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect} from "react";
 import {
   StyleSheet,
   View,
-  Image,
-  TouchableOpacity,
   Text,
-  SafeAreaView,
   ScrollView,
-  Keyboard,
-  KeyboardAvoidingView,
+  ActivityIndicator
 } from "react-native";
 import {
   Button,
-  Colors,
-  Snackbar,
-  Subheading,
   TextInput,
 } from "react-native-paper";
+
+import { addMedecien } from "../../utiles/backend/medeciens";
+
 
 const AdMed = ({ navigation }) => {
   const [nom, setnom] = useState("");
@@ -27,45 +23,39 @@ const AdMed = ({ navigation }) => {
 
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const Signup = () => {
-    fetch("http://192.168.43.1:5000/medecins", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        nom: nom,
-        specialite: specialite,
-        email: email,
-        motDepass: motDepass,
-        prenom: prenom,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setIsError(true);
-        setMessage(data.message);
-        console.log(data);
-        //alert("medecin est enregistre avec succes")
-        navigation.navigate("liste des medecins");
-      })
-      .catch((err) => {
-        console.log("error", err);
-        setIsError(false);
-      });
-  };
-  const reset = () => {
+
+  const resetForm = () => {
     setemail("");
     setmotDepass("");
     setnom("");
     setprenom("");
     setspecialite("");
   };
+
   const getMessage = () => {
     const status = isError ? `Error: ` : `Success: `;
     return status + message;
   };
+
+  const handleSingup = () => {
+      setIsLoading(true);
+      addMedecien(nom, prenom, specialite, email, motDepass)
+        .then(data => {
+          resetForm();
+          setMessage(data.message);
+          setIsError(false);
+          navigation.navigate("liste des medecins");
+        })
+        .catch(err => {
+          setMessage(err.message);
+          setIsError(true);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+  }
 
   return (
     <View style={{ margin: 10, flex: 1, justifyContent: "space-between" }}>
@@ -119,14 +109,20 @@ const AdMed = ({ navigation }) => {
         <Button
           mode="contained"
           style={{ marginTop: 20, height: 45 }}
-          onPress={Signup}
+          onPress={handleSingup}
         >
-          <Text style={{ fontSize: 20 }}>Enregistrer</Text>
+          {
+            isLoading ? (
+              <ActivityIndicator size="small" color="white" />
+            ) : (
+              <Text style={{ fontSize: 20 }}>Enregistrer</Text>
+            )
+          }
         </Button>
         <Button
           mode="contained"
           style={{ marginTop: 20, height: 45 }}
-          onPress={reset}
+          onPress={resetForm}
         >
           <Text style={{ fontSize: 20 }}>annuler</Text>
         </Button>

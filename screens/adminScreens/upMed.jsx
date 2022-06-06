@@ -17,6 +17,7 @@ import {
   Subheading,
   TextInput,
 } from "react-native-paper";
+import {baseUrl} from "../../constants";
 
 const UPmed = ({ route, navigation }) => {
   const getDetails = (type) => {
@@ -54,7 +55,7 @@ const UPmed = ({ route, navigation }) => {
 
   const Modifier = () => {
     console.log(_id);
-    fetch("http://192.168.43.1:5000/medecins/" + _id + "/update", {
+    fetch(`${baseUrl}/medecins/` + _id + "/update", {
       method: "PUT",
       headers: {
         "content-type": "application/json",

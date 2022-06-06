@@ -39,7 +39,7 @@ const AddGroupe = () => {
         Alert('is not a number')
         return;
       }*/
-        fetch("http://192.168.43.1:5000/groupes", 
+        fetch(`${baseUrl}/groupes/`, 
         {
             method:'POST',
             headers:{

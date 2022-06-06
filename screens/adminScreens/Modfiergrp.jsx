@@ -10,7 +10,7 @@ import {
     Keyboard, KeyboardAvoidingView,
   } from "react-native";
 import { Button, Colors, Snackbar, Subheading, TextInput } from 'react-native-paper';
-
+import { baseUrl } from '../../constants';
 const ModifierGroupe = ({route,navigation}) => {
     const getDetails =(type) =>{
         if(route.params){
@@ -34,7 +34,7 @@ const ModifierGroupe = ({route,navigation}) => {
 
     const Modifier = () =>{
         console.log(_id);
-          fetch("http://192.168.43.1:5000/groupes/"+_id, 
+          fetch(`${baseUrl}groupes/`+_id, 
           {
               method:'PUT',
               headers:{

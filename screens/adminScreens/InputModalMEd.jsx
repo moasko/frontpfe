@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { View, TextInput, StyleSheet, Pressable, Text,Modal} from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { baseUrl } from '../../constants';
 
 const InputModal = ({setModalvisible,Modalvisible}) => {
     const [nom, setnom] = useState('');
@@ -13,7 +13,7 @@ const InputModal = ({setModalvisible,Modalvisible}) => {
         setModalvisible(false)
     }
     const Modifier = () =>{
-        fetch("http://192.168.43.1:5000/medecins/:id", 
+        fetch(`${baseUrl}/groupes/medecins/:id`, 
         {
             method:'PUT',
             headers:{

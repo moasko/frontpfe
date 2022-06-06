@@ -17,7 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SelectDropdown from "react-native-select-dropdown";
 import { Dropdown } from "react-native-element-dropdown";
 import Picker from "react-native";
-
+import { baseUrl } from '../../constants';
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -30,7 +30,7 @@ const AjouterJou = () => {
   const [groupe, setgroupe] = useState("");
 
   const Signup = () => {
-    fetch("http://192.168.43.1:5000/joueurs", {
+    fetch(`${baseUrl}/joueurs`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -61,7 +61,7 @@ const AjouterJou = () => {
     setemail("");
   };
   const afficher = (token) => {
-    fetch("http://192.168.1.166:5000/joueurs", {
+    fetch(`${baseUrl}/joueurs`, {
       method: "GET",
       headers: {
         "content-type": "application/json",
