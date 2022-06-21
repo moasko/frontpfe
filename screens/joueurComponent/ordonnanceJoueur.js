@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, FlatList, Dimensions,Button,TouchableOpacity} from "react-native";
 import { Caption} from "react-native-paper";
-
+import RNHTMLtoPDF from 'react-native-html-to-pdf'
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -28,6 +28,17 @@ const getUser = () => {
         setLoading(false);
       });
   };
+  
+ const generateOrdonance = async()=>{
+     let file = await RNHTMLtoPDF.convert({
+       html: '<h1>PDF TEST</h1>',
+      fileName: 'test',
+      directory: 'Documents',
+     })
+     
+     console.log(file.filePath)
+ }
+    
   useEffect(() => {
     console.log(idCon);
       getUser();
@@ -49,7 +60,7 @@ const getUser = () => {
                       
                   <View style={styles.loremIpsum1Row}>
                   <Text style={styles.loremIpsum1}>{item.createdAt}</Text>
-                  <TouchableOpacity style={styles.button1}>
+                  <TouchableOpacity onPress={()=>generateOrdonance()} style={styles.button1}>
                     <Text style={styles.voir1}>Voir</Text>
                   </TouchableOpacity>
                 </View>
